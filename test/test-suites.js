@@ -1,3 +1,5 @@
+const isPolymer2 = document.querySelector('script[src*="wct-browser-legacy"]') === null;
+
 window.VaadinDatePickerSuites = [
   'basic.html',
   'dropdown.html',
@@ -11,3 +13,7 @@ window.VaadinDatePickerSuites = [
   'late-upgrade.html',
   'wai-aria.html'
 ];
+
+if (isPolymer2) {
+  window.VaadinComboBoxSuites.push('late-upgrade.html');
+}
