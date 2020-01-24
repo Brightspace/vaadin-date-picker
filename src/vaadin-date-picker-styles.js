@@ -9,6 +9,10 @@ $_documentContainer.innerHTML = `<dom-module id="vaadin-date-picker-overlay-styl
         justify-content: flex-start;
       }
 
+      :host([dir="rtl"]) {
+        align-items: flex-end;
+      }
+
       :host([bottom-aligned]) {
         justify-content: flex-end;
       }
