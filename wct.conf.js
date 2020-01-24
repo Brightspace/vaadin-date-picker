@@ -1,29 +1,74 @@
+var envIndex = process.argv.indexOf('--env') + 1;
+var env = envIndex ? process.argv[envIndex] : undefined;
+
 module.exports = {
+  testTimeout: 180 * 1000,
+  verbose: false,
   plugins: {
-    'random-output': true
+    local: {
+      browserOptions: {
+        chrome: [
+          'headless',
+          'disable-gpu',
+          'no-sandbox'
+        ]
+      }
+    },
+    // MAGI REMOVE START
+    istanbul: {
+      dir: './coverage',
+      reporters: ['text-summary', 'lcov'],
+      include: [
+        '**/vaadin-date-picker/src/*.html'
+      ],
+      exclude: [],
+      thresholds: {
+        global: {
+          statements: 91
+        }
+      }
+    }
+    // MAGI REMOVE END
   },
+
   registerHooks: function(context) {
-    var crossPlatforms = [
-      'Windows 10/chrome@55',
-      'Windows 10/firefox@50'
+    const saucelabsPlatformsMobile = [
+      'iOS Simulator/iphone@11.3',
+      'iOS Simulator/iphone@9.3'
     ];
 
-    var otherPlatforms = [
-      'OS X 10.11/iphone@9.3',
-      'OS X 10.11/ipad@9.3',
-      'Windows 10/microsoftedge@13',
-      'Windows 10/internet explorer@11',
-      'OS X 10.11/safari@10.0'
+    const saucelabsPlatformsMicrosoft = [
+      'Windows 10/microsoftedge@17',
+      'Windows 10/internet explorer@11'
     ];
 
-    // run SauceLabs tests for pushes, except cases when branch contains 'quick/'
-    if (process.env.TRAVIS_EVENT_TYPE === 'push' && process.env.TRAVIS_BRANCH.indexOf('quick/') === -1) {
-      // crossPlatforms are not tested here, but in Selenium WebDriver (see .travis.yml)
-      context.options.plugins.sauce.browsers = otherPlatforms;
+    const saucelabsPlatformsDesktop = [
+      'macOS 10.13/safari@11.1'
+    ];
 
-    // Run SauceLabs for daily builds, triggered by cron
-    } else if (process.env.TRAVIS_EVENT_TYPE === 'cron') {
-      context.options.plugins.sauce.browsers = crossPlatforms.concat(otherPlatforms);
+    const saucelabsPlatforms = [
+      ...saucelabsPlatformsMobile,
+      ...saucelabsPlatformsMicrosoft,
+      ...saucelabsPlatformsDesktop
+    ];
+
+    const cronPlatforms = [
+      {
+        deviceName: 'Android GoogleAPI Emulator',
+        platformName: 'Android',
+        platformVersion: '7.1',
+        browserName: 'chrome'
+      },
+      'iOS Simulator/ipad@11.3',
+      'iOS Simulator/iphone@10.3',
+      'Windows 10/chrome@latest',
+      'Windows 10/firefox@latest'
+    ];
+
+    if (env === 'saucelabs') {
+      context.options.plugins.sauce.browsers = saucelabsPlatforms;
+    } else if (env === 'saucelabs-cron') {
+      context.options.plugins.sauce.browsers = cronPlatforms;
     }
   }
 };
