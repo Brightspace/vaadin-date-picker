@@ -17,7 +17,11 @@
     "vaadin-date-picker.html",
     "vaadin-date-picker-light.html",
     "theme/material/vaadin-date-picker-light.html",
-    "theme/material/vaadin-date-picker.html"
+    "theme/material/vaadin-date-picker.html",
+    "demo/date-picker-basic-demos.html",
+    "demo/date-picker-localization-demos.html",
+    "demo/date-picker-validation-demos.html",
+    "demo/date-picker-styling-demos.html"
   ],
   "repository": {
     "type": "git",
@@ -36,7 +40,7 @@
     "iron-a11y-keys-behavior": "^2.0.0",
     "iron-media-query": "^2.0.0",
     "iron-resizable-behavior": "^2.0.0",
-    "polymer": "^2.0.0",
+    "polymer": "Polymer/polymer#5f5d2c2",
     "vaadin-button": "vaadin/vaadin-button#^2.1.0",
     "vaadin-text-field": "vaadin/vaadin-text-field#^2.1.2",
     "vaadin-themable-mixin": "vaadin/vaadin-themable-mixin#^1.3.2",
@@ -59,6 +63,7 @@
     "vaadin-custom-field": "vaadin/vaadin-custom-field#^1.0.0"
   },
   "resolutions": {
-    "vaadin-element-mixin": "^2.0.0"
+    "vaadin-element-mixin": "^2.0.0",
+    "polymer": "5f5d2c2"
   }
 }
