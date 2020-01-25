@@ -4,21 +4,21 @@ import '@vaadin/vaadin-text-field/theme/lumo/vaadin-text-field.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 
 const $_documentContainer = html`<dom-module id="lumo-date-picker" theme-for="vaadin-date-picker">
-  <template>
-    <style include="lumo-field-button">
-      :host {
-        outline: none;
-      }
+	<template>
+		<style include="lumo-field-button">
+			:host {
+				outline: none;
+			}
 
-      [part="toggle-button"]::before {
-        content: var(--lumo-icons-calendar);
-      }
+			[part="toggle-button"]::before {
+				content: var(--lumo-icons-calendar);
+			}
 
-      [part="clear-button"]::before {
-        content: var(--lumo-icons-cross);
-      }
-    </style>
-  </template>
+			[part="clear-button"]::before {
+				content: var(--lumo-icons-cross);
+			}
+		</style>
+	</template>
 </dom-module>`;
 
 document.head.appendChild($_documentContainer.content);

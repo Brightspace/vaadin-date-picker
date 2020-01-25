@@ -21,9 +21,9 @@ import { DisableUpgradeMixin } from '@polymer/polymer/lib/mixins/disable-upgrade
  * @private
  */
 class DatePickerOverlayElement extends DisableUpgradeMixin(OverlayElement) {
-  static get is() {
-    return 'vaadin-date-picker-overlay';
-  }
+	static get is() {
+		return 'vaadin-date-picker-overlay';
+	}
 }
 
 customElements.define(DatePickerOverlayElement.is, DatePickerOverlayElement);

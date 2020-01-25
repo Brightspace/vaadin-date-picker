@@ -100,176 +100,176 @@ import { prevent } from '@polymer/polymer/lib/utils/gestures.js';
  * @demo demo/index.html
  */
 class DatePickerElement extends
-  ElementMixin(
-    ControlStateMixin(
-      ThemableMixin(
-        ThemePropertyMixin(
-          DatePickerMixin(
-            GestureEventListeners(PolymerElement)))))) {
-  static get template() {
-    return html`
-    <style>
-      :host {
-        display: inline-block;
-      }
+	ElementMixin(
+		ControlStateMixin(
+			ThemableMixin(
+				ThemePropertyMixin(
+					DatePickerMixin(
+						GestureEventListeners(PolymerElement)))))) {
+	static get is() {
+		return 'vaadin-date-picker';
+	}
 
-      :host([hidden]) {
-        display: none !important;
-      }
+	static get properties() {
+		return {
+			/**
+			 * Set to true to disable this element.
+			 */
+			disabled: {
+				type: Boolean,
+				value: false,
+				reflectToAttribute: true
+			},
 
-      :host([opened]) {
-        pointer-events: auto;
-      }
+			/**
+			 * The error message to display when the input is invalid.
+			 */
+			errorMessage: String,
 
-      [part="text-field"] {
-        width: 100%;
-        min-width: 0;
-      }
+			/**
+			 * A placeholder string in addition to the label. If this is set, the label will always float.
+			 */
+			placeholder: String,
 
-      :host([disabled]) [part="clear-button"],
-      :host([readonly]) [part="clear-button"],
-      :host(:not([has-value])) [part="clear-button"] {
-        display: none;
-      }
-    </style>
+			/**
+			 * Set to true to make this element read-only.
+			 */
+			readonly: {
+				type: Boolean,
+				value: false,
+				reflectToAttribute: true
+			},
+
+			/**
+			 * This property is set to true when the control value invalid.
+			 */
+			invalid: {
+				type: Boolean,
+				reflectToAttribute: true,
+				notify: true,
+				value: false
+			},
+
+			_userInputValue: String
+		};
+	}
+
+	static get observers() {
+		return [
+			'_userInputValueChanged(_userInputValue)'
+		];
+	}
+
+	static get template() {
+		return html`
+		<style>
+			:host {
+				display: inline-block;
+			}
+
+			:host([hidden]) {
+				display: none !important;
+			}
+
+			:host([opened]) {
+				pointer-events: auto;
+			}
+
+			[part="text-field"] {
+				width: 100%;
+				min-width: 0;
+			}
+
+			:host([disabled]) [part="clear-button"],
+			:host([readonly]) [part="clear-button"],
+			:host(:not([has-value])) [part="clear-button"] {
+				display: none;
+			}
+		</style>
 
 
-    <vaadin-text-field id="input" role="application" autocomplete="off" on-focus="_focus" value="{{_userInputValue}}" invalid="[[invalid]]" label="[[label]]" name="[[name]]" placeholder="[[placeholder]]" required="[[required]]" disabled="[[disabled]]" readonly="[[readonly]]" error-message="[[errorMessage]]" aria-label\$="[[label]]" part="text-field" theme\$="[[theme]]">
-      <slot name="prefix" slot="prefix"></slot>
-      <div part="clear-button" slot="suffix" on-touchend="_clearTouchend" on-click="_clear" role="button" aria-label\$="[[i18n.clear]]"></div>
-      <div part="toggle-button" slot="suffix" on-tap="_toggle" role="button" aria-label\$="[[i18n.calendar]]" aria-expanded\$="[[_getAriaExpanded(opened)]]"></div>
-    </vaadin-text-field>
+		<vaadin-text-field id="input" role="application" autocomplete="off" on-focus="_focus" value="{{_userInputValue}}" invalid="[[invalid]]" label="[[label]]" name="[[name]]" placeholder="[[placeholder]]" required="[[required]]" disabled="[[disabled]]" readonly="[[readonly]]" error-message="[[errorMessage]]" aria-label\$="[[label]]" part="text-field" theme\$="[[theme]]">
+			<slot name="prefix" slot="prefix"></slot>
+			<div part="clear-button" slot="suffix" on-touchend="_clearTouchend" on-click="_clear" role="button" aria-label\$="[[i18n.clear]]"></div>
+			<div part="toggle-button" slot="suffix" on-tap="_toggle" role="button" aria-label\$="[[i18n.calendar]]" aria-expanded\$="[[_getAriaExpanded(opened)]]"></div>
+		</vaadin-text-field>
 
-    <vaadin-date-picker-overlay id="overlay" fullscreen\$="[[_fullscreen]]" theme\$="[[__getOverlayTheme(theme, _overlayInitialized)]]" on-vaadin-overlay-open="_onOverlayOpened" on-vaadin-overlay-close="_onOverlayClosed" disable-upgrade="">
-      <template>
-        <vaadin-date-picker-overlay-content id="overlay-content" i18n="[[i18n]]" fullscreen\$="[[_fullscreen]]" label="[[label]]" selected-date="{{_selectedDate}}" slot="dropdown-content" focused-date="{{_focusedDate}}" show-week-numbers="[[showWeekNumbers]]" min-date="[[_minDate]]" max-date="[[_maxDate]]" role="dialog" on-date-tap="_close" part="overlay-content" theme\$="[[__getOverlayTheme(theme, _overlayInitialized)]]">
-        </vaadin-date-picker-overlay-content>
-      </template>
-    </vaadin-date-picker-overlay>
+		<vaadin-date-picker-overlay id="overlay" fullscreen\$="[[_fullscreen]]" theme\$="[[__getOverlayTheme(theme, _overlayInitialized)]]" on-vaadin-overlay-open="_onOverlayOpened" on-vaadin-overlay-close="_onOverlayClosed" disable-upgrade="">
+			<template>
+				<vaadin-date-picker-overlay-content id="overlay-content" i18n="[[i18n]]" fullscreen\$="[[_fullscreen]]" label="[[label]]" selected-date="{{_selectedDate}}" slot="dropdown-content" focused-date="{{_focusedDate}}" show-week-numbers="[[showWeekNumbers]]" min-date="[[_minDate]]" max-date="[[_maxDate]]" role="dialog" on-date-tap="_close" part="overlay-content" theme\$="[[__getOverlayTheme(theme, _overlayInitialized)]]">
+				</vaadin-date-picker-overlay-content>
+			</template>
+		</vaadin-date-picker-overlay>
 
-    <iron-media-query query="[[_fullscreenMediaQuery]]" query-matches="{{_fullscreen}}">
-    </iron-media-query>
+		<iron-media-query query="[[_fullscreenMediaQuery]]" query-matches="{{_fullscreen}}">
+		</iron-media-query>
 `;
-  }
+	}
 
-  static get is() {
-    return 'vaadin-date-picker';
-  }
+	static get version() {
+		return '3.3.4';
+	}
 
-  static get version() {
-    return '3.3.4';
-  }
+	get _inputValue() {
+		return this._inputElement.value;
+	}
 
-  static get properties() {
-    return {
-      /**
-       * Set to true to disable this element.
-       */
-      disabled: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true
-      },
+	set _inputValue(value) {
+		this._inputElement.value = value;
+	}
 
-      /**
-       * The error message to display when the input is invalid.
-       */
-      errorMessage: String,
+	ready() {
+		super.ready();
 
-      /**
-       * A placeholder string in addition to the label. If this is set, the label will always float.
-       */
-      placeholder: String,
+		// In order to have synchronized invalid property, we need to use the same validate logic.
+		afterNextRender(this, () => this._inputElement.validate = () => {});
+	}
 
-      /**
-       * Set to true to make this element read-only.
-       */
-      readonly: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true
-      },
+	_onVaadinOverlayClose(e) {
+		if (this._openedWithFocusRing && this.hasAttribute('focused')) {
+			this.focusElement.setAttribute('focus-ring', '');
+		} else if (!this.hasAttribute('focused')) {
+			this.focusElement.blur();
+		}
+		if (e.detail.sourceEvent && e.detail.sourceEvent.composedPath().indexOf(this) !== -1) {
+			e.preventDefault();
+		}
+	}
 
-      /**
-       * This property is set to true when the control value invalid.
-       */
-      invalid: {
-        type: Boolean,
-        reflectToAttribute: true,
-        notify: true,
-        value: false
-      },
+	_clear() {
+		this.__dispatchChange = true;
+		this.value = '';
+		this.validate();
+		this.focus();
+		prevent('tap');
+		this.__dispatchChange = false;
+	}
 
-      _userInputValue: String
-    };
-  }
+	_clearTouchend(e) {
+		this._clear();
+		e.preventDefault();
+		prevent('tap');
+	}
 
-  static get observers() {
-    return [
-      '_userInputValueChanged(_userInputValue)'
-    ];
-  }
+	_toggle(e) {
+		e.stopPropagation();
+		this[(this._overlayInitialized && this.$.overlay.opened) ? 'close' : 'open']();
+	}
 
-  ready() {
-    super.ready();
+	_input() {
+		return this.$.input;
+	}
 
-    // In order to have synchronized invalid property, we need to use the same validate logic.
-    afterNextRender(this, () => this._inputElement.validate = () => {});
-  }
+	_getAriaExpanded(opened) {
+		return Boolean(opened).toString();
+	}
 
-  _onVaadinOverlayClose(e) {
-    if (this._openedWithFocusRing && this.hasAttribute('focused')) {
-      this.focusElement.setAttribute('focus-ring', '');
-    } else if (!this.hasAttribute('focused')) {
-      this.focusElement.blur();
-    }
-    if (e.detail.sourceEvent && e.detail.sourceEvent.composedPath().indexOf(this) !== -1) {
-      e.preventDefault();
-    }
-  }
-
-  _clear() {
-    this.__dispatchChange = true;
-    this.value = '';
-    this.validate();
-    this.focus();
-    prevent('tap');
-    this.__dispatchChange = false;
-  }
-
-  _clearTouchend(e) {
-    this._clear();
-    e.preventDefault();
-    prevent('tap');
-  }
-
-  _toggle(e) {
-    e.stopPropagation();
-    this[(this._overlayInitialized && this.$.overlay.opened) ? 'close' : 'open']();
-  }
-
-  _input() {
-    return this.$.input;
-  }
-
-  set _inputValue(value) {
-    this._inputElement.value = value;
-  }
-
-  get _inputValue() {
-    return this._inputElement.value;
-  }
-
-  _getAriaExpanded(opened) {
-    return Boolean(opened).toString();
-  }
-
-  /**
-   * Focussable element used by vaadin-control-state-mixin
-   */
-  get focusElement() {
-    return this._input() || this;
-  }
+	/**
+	 * Focussable element used by vaadin-control-state-mixin
+	 */
+	get focusElement() {
+		return this._input() || this;
+	}
 }
 
 customElements.define(DatePickerElement.is, DatePickerElement);
