@@ -11,7 +11,7 @@ addons:
   chrome: stable
 
 install:
-  - yarn install --flat
+  - yarn install
 
 script:
   - npm run test
