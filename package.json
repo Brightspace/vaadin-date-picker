@@ -28,6 +28,12 @@
     "supports-color": "3.1.2",
     "type-detect": "1.0.0"
   },
+  "scripts": {
+    "serve": "polymer serve --npm",
+    "test": "npm run lint && npm run test:unit:local",
+    "lint": "eslint . --ext .js,.html test/**/*.js test/**/*.html demo/**/*.js demo/**/*.html",
+    "test:unit:local": "polymer test --skip-plugin sauce --local chrome"
+  },
   "dependencies": {
     "@polymer/iron-a11y-announcer": "^3.0.0",
     "@polymer/iron-a11y-keys-behavior": "^3.0.0",
@@ -52,6 +58,10 @@
     "@polymer/iron-test-helpers": "^3.0.0",
     "@vaadin/vaadin-custom-field": "1.0.0",
     "@vaadin/vaadin-demo-helpers": "2.2.0",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^4.19.1",
+		"eslint-config-brightspace": "^0.4.0",
+		"eslint-plugin-html": "^4.0.5",
     "sugar": "2.0.0",
     "wct-browser-legacy": "^1.0.1"
   }

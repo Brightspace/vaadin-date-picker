@@ -8,22 +8,22 @@ import '@vaadin/vaadin-material-styles/mixins/field-button.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 
 const $_documentContainer = html`<dom-module id="material-date-picker" theme-for="vaadin-date-picker">
-  <template>
-    <style include="material-field-button">
-      :host {
-        display: inline-flex;
-        -webkit-tap-highlight-color: transparent;
-      }
+	<template>
+		<style include="material-field-button">
+			:host {
+				display: inline-flex;
+				-webkit-tap-highlight-color: transparent;
+			}
 
-      [part="clear-button"]::before {
-        content: var(--material-icons-clear);
-      }
+			[part="clear-button"]::before {
+				content: var(--material-icons-clear);
+			}
 
-      [part="toggle-button"]::before {
-        content: var(--material-icons-calendar);
-      }
-    </style>
-  </template>
+			[part="toggle-button"]::before {
+				content: var(--material-icons-calendar);
+			}
+		</style>
+	</template>
 </dom-module>`;
 
 document.head.appendChild($_documentContainer.content);

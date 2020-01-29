@@ -67,71 +67,71 @@ import { dashToCamelCase } from '@polymer/polymer/lib/utils/case-map.js';
  * @mixes Vaadin.DatePickerMixin
  */
 class DatePickerLightElement extends
-  ThemableMixin(
-    ThemePropertyMixin(
-      DatePickerMixin(PolymerElement))) {
-  static get template() {
-    return html`
-    <style>
-      :host {
-        display: inline-block;
-      }
+	ThemableMixin(
+		ThemePropertyMixin(
+			DatePickerMixin(PolymerElement))) {
+	static get is() {
+		return 'vaadin-date-picker-light';
+	}
 
-      :host([opened]) {
-        pointer-events: auto;
-      }
-    </style>
-    <slot></slot>
+	static get properties() {
+		return {
+			/**
+			 * Name of the two-way data-bindable property representing the
+			 * value of the custom input field.
+			 */
+			attrForValue: {
+				type: String,
+				value: 'bind-value'
+			},
 
-    <vaadin-date-picker-overlay id="overlay" fullscreen\$="[[_fullscreen]]" opened="{{opened}}" on-vaadin-overlay-open="_onOverlayOpened" on-vaadin-overlay-close="_onOverlayClosed" theme\$="[[__getOverlayTheme(theme, _overlayInitialized)]]">
-      <template>
-        <vaadin-date-picker-overlay-content id="overlay-content" i18n="[[i18n]]" fullscreen\$="[[_fullscreen]]" label="[[label]]" selected-date="{{_selectedDate}}" slot="dropdown-content" focused-date="{{_focusedDate}}" show-week-numbers="[[showWeekNumbers]]" min-date="[[_minDate]]" max-date="[[_maxDate]]" on-date-tap="_close" role="dialog" part="overlay-content" theme\$="[[__getOverlayTheme(theme, _overlayInitialized)]]">
-        </vaadin-date-picker-overlay-content>
-      </template>
-    </vaadin-date-picker-overlay>
+			_overlayInitialized: {
+				type: Boolean,
+				value: true
+			}
+		};
+	}
 
-    <iron-media-query query="[[_fullscreenMediaQuery]]" query-matches="{{_fullscreen}}">
-    </iron-media-query>
+	static get template() {
+		return html`
+		<style>
+			:host {
+				display: inline-block;
+			}
+
+			:host([opened]) {
+				pointer-events: auto;
+			}
+		</style>
+		<slot></slot>
+
+		<vaadin-date-picker-overlay id="overlay" fullscreen\$="[[_fullscreen]]" opened="{{opened}}" on-vaadin-overlay-open="_onOverlayOpened" on-vaadin-overlay-close="_onOverlayClosed" theme\$="[[__getOverlayTheme(theme, _overlayInitialized)]]">
+			<template>
+				<vaadin-date-picker-overlay-content id="overlay-content" i18n="[[i18n]]" fullscreen\$="[[_fullscreen]]" label="[[label]]" selected-date="{{_selectedDate}}" slot="dropdown-content" focused-date="{{_focusedDate}}" show-week-numbers="[[showWeekNumbers]]" min-date="[[_minDate]]" max-date="[[_maxDate]]" on-date-tap="_close" role="dialog" part="overlay-content" theme\$="[[__getOverlayTheme(theme, _overlayInitialized)]]">
+				</vaadin-date-picker-overlay-content>
+			</template>
+		</vaadin-date-picker-overlay>
+
+		<iron-media-query query="[[_fullscreenMediaQuery]]" query-matches="{{_fullscreen}}">
+		</iron-media-query>
 `;
-  }
+	}
 
-  static get is() {
-    return 'vaadin-date-picker-light';
-  }
+	get _inputValue() {
+		return this._inputElement && this._inputElement[dashToCamelCase(this.attrForValue)];
+	}
 
-  static get properties() {
-    return {
-      /**
-       * Name of the two-way data-bindable property representing the
-       * value of the custom input field.
-       */
-      attrForValue: {
-        type: String,
-        value: 'bind-value'
-      },
+	set _inputValue(value) {
+		if (this._inputElement) {
+			this._inputElement[dashToCamelCase(this.attrForValue)] = value;
+		}
+	}
 
-      _overlayInitialized: {
-        type: Boolean,
-        value: true
-      }
-    };
-  }
-
-  _input() {
-    // Using the same selector than in combo-box.
-    // TODO: revisit this to decide the selector and document conveniently.
-    return this.querySelector('vaadin-text-field,iron-input,paper-input,.paper-input-input,.input');
-  }
-
-  set _inputValue(value) {
-    if (this._inputElement) {
-      this._inputElement[dashToCamelCase(this.attrForValue)] = value;
-    }
-  }
-
-  get _inputValue() {
-    return this._inputElement && this._inputElement[dashToCamelCase(this.attrForValue)];
-  }
+	_input() {
+		// Using the same selector than in combo-box.
+		// TODO: revisit this to decide the selector and document conveniently.
+		return this.querySelector('vaadin-text-field,iron-input,paper-input,.paper-input-input,.input');
+	}
 }
 
 customElements.define(DatePickerLightElement.is, DatePickerLightElement);
