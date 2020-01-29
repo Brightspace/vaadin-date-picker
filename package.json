@@ -10,7 +10,7 @@
   "repository": "vaadin/vaadin-date-picker",
   "homepage": "https://vaadin.com/components",
   "name": "@vaadin/vaadin-date-picker",
-  "version": "3.3.4",
+  "version": "3.3.2",
   "main": "vaadin-date-picker.js",
   "author": "Vaadin Ltd",
   "license": "Apache-2.0",
